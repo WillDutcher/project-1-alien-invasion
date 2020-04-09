@@ -13,6 +13,7 @@ class AlienInvasion:
     def __init__(self):
         """Initialize the game and create game resources."""
         pygame.init()
+        self.count = 0
         self.settings = Settings()
 
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -73,6 +74,7 @@ class AlienInvasion:
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group."""
+        pygame.mixer.Sound.play(self.settings.shoot_sound)
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
@@ -87,10 +89,16 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
-        # Check for any bullets that have hit aliens.
-        # If so, get rid of the bullet and the alien.
+        self._check_bullet_alien_collisions()
+
+    def _check_bullet_alien_collisions(self):
+        """Respond to bullet-alien collisions."""
+        # Remove any bullets and aliens that have collided.
         collisions = pygame.sprite.groupcollide(
-            self.bullets, self.aliens, True, True)
+            self.bullets, self.aliens, False, True)
+        if collisions:
+            pygame.mixer.Sound.play(self.settings.hit)
+
         if not self.aliens:
             # Destroy existing bullets and create new fleet.
             self.bullets.empty()
@@ -104,8 +112,21 @@ class AlienInvasion:
         self._check_fleet_edges()
         self.aliens.update()
 
+        # Look for alien-ship collisions.
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            pygame.mixer.Sound.play(self.settings.ship_explode)
+
     def _create_fleet(self):
         """Create the fleet of aliens."""
+        self.count += 1
+        if self.count == 1:
+            pygame.mixer.Sound.play(self.settings.round_one)
+        elif self.count == 2:
+            pygame.mixer.Sound.play(self.settings.round_two)
+        elif self.count == 3:
+            pygame.mixer.Sound.play(self.settings.round_three)
+        else:
+            pygame.mixer.Sound.play(self.settings.haha)
         # Create an alien and find the number of aliens in a row.
         # Spacing between each alien is equal to one alien width.
         alien = Alien(self)
