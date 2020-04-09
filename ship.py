@@ -8,6 +8,7 @@ class Ship:
         self.screen = ai_game.screen
         self.settings = ai_game.settings
         self.screen_rect = ai_game.screen.get_rect()
+        self.max_ship_height = ai_game.settings.screen_height * .75
 
         # Load the ship image and get its rect
         self.image = pygame.image.load('images/ship.bmp')
@@ -32,7 +33,7 @@ class Ship:
             self.x += self.settings.ship_speed
         if self.moving_left and self.rect.left > 0:
             self.x -= self.settings.ship_speed
-        if self.moving_up and self.rect.top > self.settings.height_limit:
+        if self.moving_up and self.rect.top > self.max_ship_height:
             self.y -= self.settings.ship_speed
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.y += self.settings.ship_speed
