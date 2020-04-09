@@ -4,6 +4,7 @@ import pygame
 
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -19,12 +20,14 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion (press 'CTRL + x' to quit)")
 
         self.ship = Ship(self)
+        self.bullets = pygame.sprite.Group()
 
     def run_game(self):
         """Start the main loop for the game."""
         while True:
             self._check_events()                                                # Calls helper method
             self.ship.update()                                                  # Updates ship's position based on user events
+            self.bullets.update()                                               # Updates the bullet's position
             self._update_screen()                                               # Calls helper method
 
     def _check_events(self):
@@ -47,8 +50,10 @@ class AlienInvasion:
             self.ship.moving_up = True
         elif event.key == pygame.K_s:
             self.ship.moving_down = True
-        elif event.key == ((pygame.K_LCTRL or pygame.K_RCTRL) and pygame.K_x):
+        elif event.key == (pygame.key.get_mods() & pygame.KMOD_CTRL and pygame.K_x):
             sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
 
     def _check_keyup_events(self, event):
         """Respond to key up events."""
@@ -61,10 +66,17 @@ class AlienInvasion:
         elif event.key == pygame.K_s:
             self.ship.moving_down = False
 
+    def _fire_bullet(self):
+        """Create a new bullet and add it to the bullets group."""
+        new_bullet = Bullet(self)
+        self.bullets.add(new_bullet)
+
     def _update_screen(self):
         """Update images on screen and flip to show newest screen."""
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
 
         # Make the most recently drawn screen visible.
         pygame.display.flip()
