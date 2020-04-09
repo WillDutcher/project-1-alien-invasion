@@ -15,7 +15,7 @@ class AlienInvasion:
 
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height))
-        pygame.display.set_caption("Alien Invasion")
+        pygame.display.set_caption("Alien Invasion (press 'CTRL + x' to quit)")
 
         self.ship = Ship(self)
 
@@ -46,6 +46,8 @@ class AlienInvasion:
             self.ship.moving_up = True
         elif event.key == pygame.K_s:
             self.ship.moving_down = True
+        elif event.key == ((pygame.K_LCTRL or pygame.K_RCTRL) and pygame.K_x):
+            sys.exit()
 
     def _check_keyup_events(self, event):
         """Respond to key up events."""
