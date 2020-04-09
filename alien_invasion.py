@@ -32,6 +32,7 @@ class AlienInvasion:
             self._check_events()                                                # Calls helper method
             self.ship.update()                                                  # Updates ship's position based on user events
             self._update_bullets()                                              # Updates the bullet's position when fired
+            self._update_aliens()                                               # Updates the alien fleet
             self._update_screen()                                               # Calls helper method
 
     def _check_events(self):
@@ -85,6 +86,10 @@ class AlienInvasion:
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+
+    def _update_aliens(self):
+        """Update the positions of all aliens in the fleet."""
+        self.aliens.update()
 
     def _create_fleet(self):
         """Create the fleet of aliens."""
