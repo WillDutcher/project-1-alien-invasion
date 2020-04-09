@@ -28,6 +28,12 @@ class AlienInvasion:
             self._check_events()                                                # Calls helper method
             self.ship.update()                                                  # Updates ship's position based on user events
             self.bullets.update()                                               # Updates the bullet's position
+
+            # Get rid of bullets that have disappeared.
+            for bullet in self.bullets.copy():
+                if bullet.rect.bottom <= 0:
+                    self.bullets.remove(bullet)
+
             self._update_screen()                                               # Calls helper method
 
     def _check_events(self):
@@ -68,8 +74,9 @@ class AlienInvasion:
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group."""
-        new_bullet = Bullet(self)
-        self.bullets.add(new_bullet)
+        if len(self.bullets) < self.settings.bullets_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
 
     def _update_screen(self):
         """Update images on screen and flip to show newest screen."""
