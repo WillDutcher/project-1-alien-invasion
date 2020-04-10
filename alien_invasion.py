@@ -76,6 +76,9 @@ class AlienInvasion:
             self._create_fleet()
             self.ship.center_ship()
 
+            # Hide mouse cursor.
+            pygame.mouse.set_visible(False)
+
     def _check_keydown_events(self, event):
         """Respond to key press down events."""
         if event.key == pygame.K_d:
@@ -153,6 +156,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
             self.count = 0
             pygame.mixer.Sound.play(self.settings.game_over)
 
