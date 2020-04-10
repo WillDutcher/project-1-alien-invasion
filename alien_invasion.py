@@ -31,8 +31,6 @@ class AlienInvasion:
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
 
-        # self._create_fleet()
-
         # Make the Play button.
         self.play_button = Button(self, "Play")
 
@@ -57,7 +55,6 @@ class AlienInvasion:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button(mouse_pos)
-                self.count += 1
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
@@ -65,7 +62,8 @@ class AlienInvasion:
 
     def _check_play_button(self, mouse_pos):
         """Start a new game when the player clicks Play button."""
-        if self.play_button.rect.collidepoint(mouse_pos):
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.stats.game_active:
             # Reset the game statistics.
             self.stats.reset_stats()
             self.stats.game_active = True
@@ -155,6 +153,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            self.count = 0
             pygame.mixer.Sound.play(self.settings.game_over)
 
     def _check_aliens_bottom(self):
