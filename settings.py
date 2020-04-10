@@ -15,7 +15,7 @@ class Settings:
         self.height_limit = self.screen_height * 0.75
 
         # Bullet settings
-        self.bullet_width = 3
+        self.bullet_width = 3000
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 5
@@ -36,6 +36,10 @@ class Settings:
 
         # Difficulty settings
         self.speedup_scale = 1.1
+
+        # How quickly the alien point values increase.
+        self.score_scale = 1.5
+
         self.initialize_dynamic_settings()
 
     def initialize_dynamic_settings(self):
@@ -51,7 +55,10 @@ class Settings:
         self.alien_points = 50
 
     def increase_difficulty(self):
-        """Increase speed settings when player clears board."""
+        """Increase speed settings and alien point values when board cleared."""
         self.ship_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
         self.alien_speed *= self.speedup_scale
+
+        self.alien_points = int(self.alien_points * self.score_scale)
+        print(self.alien_points)
