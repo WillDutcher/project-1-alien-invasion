@@ -14,7 +14,7 @@ class Settings:
         self.ship_speed = 3
         self.ship_limit = 3
         self.height_limit = self.screen_height * 0.75
-        
+
         # Bullet settings
         self.bullet_speed = 3
         self.bullet_width = 3
@@ -36,3 +36,5 @@ class Settings:
         self.round_one = pygame.mixer.Sound('sounds/round_one.wav')
         self.round_two = pygame.mixer.Sound('sounds/round_two.wav')
         self.round_three = pygame.mixer.Sound('sounds/round_three.wav')
+        self.welcome = pygame.mixer.Sound('sounds/welcome.wav')
+        self.game_over = pygame.mixer.Sound('sounds/game_over.wav')
