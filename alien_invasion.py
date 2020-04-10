@@ -134,6 +134,8 @@ class AlienInvasion:
             self.bullets, self.aliens, False, True)
         if collisions:
             pygame.mixer.Sound.play(self.settings.hit)
+            self.stats.score += self.settings.alien_points
+            self.sb.prep_score()
 
         if not self.aliens:
             # Destroy existing bullets and create new fleet.
