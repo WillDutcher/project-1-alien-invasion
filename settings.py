@@ -12,8 +12,9 @@ class Settings:
 
         # Ship settings
         self.ship_speed = 3
+        self.ship_limit = 3
         self.height_limit = self.screen_height * 0.75
-
+        
         # Bullet settings
         self.bullet_speed = 3
         self.bullet_width = 3
